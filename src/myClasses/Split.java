@@ -9,7 +9,7 @@ public class Split {
 
     public void split(String inputLine) throws IOException {
         if (!inputLine.matches("split +( *\\[-([odlcn])\\s?([a-zA-Z/_0-9.] *)*])* *([a-zA-z/_0-9.])+"))
-            throw new IllegalArgumentException("Line is incorrect");
+            throw new IllegalArgumentException("Your line is incorrect");
         String searchIn = inputLine.replaceAll(" ", "");
     }
 
