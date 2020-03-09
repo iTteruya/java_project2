@@ -19,9 +19,6 @@ public class FileSplitter {
     String curFileName = outputName;
     int curOutputFileNumber, availableCapacity;
 
-    public FileSplitter() {
-    }
-
 
     private void createFile(boolean sizeInLines, int capacity) throws IOException {
         availableCapacity = capacity;
