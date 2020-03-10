@@ -1,13 +1,10 @@
 package myClasses;
 
 import org.junit.jupiter.api.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileSplitterTest {
@@ -56,7 +53,6 @@ class FileSplitterTest {
         new File("storyab").delete();
     }
 
-
     String firstPart2 = "We had misunderstood. We were fools.\r"
             +"But, could anyone mock us for misunderstanding?\r"
             +"A drama that had its final episode determined wouldnt end until its final episode.\r"
@@ -91,7 +87,5 @@ class FileSplitterTest {
         new File("end1").delete();
         new File("end2").delete();
     }
-
-
 
 }

@@ -20,7 +20,6 @@ public class FileSplitter {
     boolean createNewFile;
     int curOutputFileNumber, availableCapacity;
 
-
     private void createFile(boolean sizeInLines, int capacity) throws IOException {
         availableCapacity = capacity;
         curOutputFileNumber = 1;
@@ -105,4 +104,5 @@ public class FileSplitter {
             System.out.println("Incorrect input");
         }
     }
+
 }
