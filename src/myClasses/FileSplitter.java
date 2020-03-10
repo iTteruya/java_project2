@@ -17,13 +17,14 @@ public class FileSplitter {
     private BufferedReader br;
     private BufferedWriter bw;
     String curFileName = outputName;
+    boolean createNewFile;
     int curOutputFileNumber, availableCapacity;
 
 
     private void createFile(boolean sizeInLines, int capacity) throws IOException {
         availableCapacity = capacity;
         curOutputFileNumber = 1;
-        curFileName = (numbering) ? outputName + curOutputFileNumber : (newOutputFileWithChar());
+        curFileName = (numbering) ? outputName + curOutputFileNumber : (newNameWithChar());
         bw = new BufferedWriter(new FileWriter(curFileName));
 
         if (!sizeInLines) {
@@ -41,25 +42,31 @@ public class FileSplitter {
     }
 
     private void write(String text, int capacity) throws IOException {
+        if (createNewFile) {
+            bw = new BufferedWriter(new FileWriter(curFileName));
+            createNewFile = false;
+        }
         bw.write(text);
         availableCapacity--;
         if (availableCapacity == 0) {
             bw.close();
             curOutputFileNumber++;
-            curFileName = (numbering) ? outputName + curOutputFileNumber: (newOutputFileWithChar());
-            bw = new BufferedWriter(new FileWriter(curFileName));
+            curFileName = (numbering) ? outputName + curOutputFileNumber: (newNameWithChar());
+            createNewFile = true;
             availableCapacity = capacity;
         }
     }
 
-    private String newOutputFileWithChar() {
+    private String newNameWithChar() {
         String name = outputName;
         StringBuilder sb = new StringBuilder(outputName.length() + 2);
         for (char ch: name.toCharArray()) {
             sb.append(ch);
         }
-        sb.append('a' + ((curOutputFileNumber - 1) / 26));
-        sb.append('a' + ((curOutputFileNumber - 1) % 26));
+        char firstLetter = (char) ('a' + ((curOutputFileNumber - 1) / 26));
+        char secondLetter = (char) ('a' + ((curOutputFileNumber - 1) % 26));
+        sb.append(firstLetter);
+        sb.append(secondLetter);
         return sb.toString();
     }
 
@@ -75,7 +82,8 @@ public class FileSplitter {
                 || (fileSizeInChar != 0 && (fileSizeInFileCount + fileSizeInLines) != 0)
                 || (fileSizeInFileCount != 0 && (fileSizeInChar + fileSizeInLines) != 0))
                 throw new IllegalArgumentException("Incorrect Input");
-            if (outputName.equals("-")) outputName = fileName;
+            if (outputName.equals("-")) outputName = fileName.replaceAll("(.+(?=/)/)|\\.txt", "");
+            System.out.println(outputName);
             if (fileSizeInLines > 0) {
                 createFile(true, fileSizeInLines);
             } else if (fileSizeInChar > 0) {
