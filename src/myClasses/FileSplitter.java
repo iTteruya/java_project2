@@ -82,7 +82,6 @@ public class FileSplitter {
                 || (fileSizeInFileCount != 0 && (fileSizeInChar + fileSizeInLines) != 0))
                 throw new IllegalArgumentException("Incorrect Input");
             if (outputName.equals("-")) outputName = fileName.replaceAll("(.+(?=/)/)|\\.txt", "");
-            System.out.println(outputName);
             if (fileSizeInLines > 0) {
                 createFile(true, fileSizeInLines);
             } else if (fileSizeInChar > 0) {
