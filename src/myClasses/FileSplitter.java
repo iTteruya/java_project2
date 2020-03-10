@@ -1,11 +1,11 @@
 package myClasses;
 
 import java.io.*;
-
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
+
 
 public class FileSplitter {
     @Argument private String[] commandLine;
