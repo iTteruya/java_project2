@@ -28,7 +28,7 @@ class FileSplitterTest {
 
     @Test
     public void testN1() throws IOException {
-        Main.main("split -d -n 2 -o story D:/texts/end.txt".split(" +"));
+        Main.main("split -d -n 2 -o story texts/end.txt".split(" +"));
         assertEquals(new String(Files.readAllBytes(Paths.get("story1"))), firstPart);
         assertEquals(new String(Files.readAllBytes(Paths.get("story2"))), secondPart);
         new File("story1").delete();
@@ -37,7 +37,7 @@ class FileSplitterTest {
 
     @Test
     public void testN2() throws IOException {
-        Main.main("split -d -l 8 -o story D:/texts/end.txt".split(" +"));
+        Main.main("split -d -l 8 -o story texts/end.txt".split(" +"));
         assertEquals(new String(Files.readAllBytes(Paths.get("story1"))), firstPart);
         assertEquals(new String(Files.readAllBytes(Paths.get("story2"))), secondPart);
         new File("story1").delete();
@@ -46,7 +46,7 @@ class FileSplitterTest {
 
     @Test
     public void testN3() throws IOException {
-        Main.main("split -l 8 -o story D:/texts/end.txt".split(" +"));
+        Main.main("split -l 8 -o story texts/end.txt".split(" +"));
         assertEquals(new String(Files.readAllBytes(Paths.get("storyaa"))), firstPart);
         assertEquals(new String(Files.readAllBytes(Paths.get("storyab"))), secondPart);
         new File("storyaa").delete();
@@ -72,7 +72,7 @@ class FileSplitterTest {
 
     @Test
     public void testN4() throws IOException {
-        Main.main("split -d -c 511 D:/texts/end.txt".split(" +"));
+        Main.main("split -d -c 511 texts/end.txt".split(" +"));
         assertEquals(new String(Files.readAllBytes(Paths.get("x1"))).replace("\n", ""), firstPart2);
         assertEquals(new String(Files.readAllBytes(Paths.get("x2"))).replace("\n", ""), secondPart2);
         new File("x1").delete();
@@ -81,7 +81,7 @@ class FileSplitterTest {
 
     @Test
     public void testN5() throws IOException {
-        Main.main("split -o - -d -n 2 D:/texts/end.txt".split(" +"));
+        Main.main("split -o - -d -n 2 texts/end.txt".split(" +"));
         assertEquals(new String(Files.readAllBytes(Paths.get("end1"))), firstPart);
         assertEquals(new String(Files.readAllBytes(Paths.get("end2"))), secondPart);
         new File("end1").delete();

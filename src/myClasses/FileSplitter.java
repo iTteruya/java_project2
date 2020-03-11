@@ -81,7 +81,8 @@ public class FileSplitter {
                 || (fileSizeInChar != 0 && (fileSizeInFileCount + fileSizeInLines) != 0)
                 || (fileSizeInFileCount != 0 && (fileSizeInChar + fileSizeInLines) != 0))
                 throw new IllegalArgumentException("Incorrect Input");
-            if (outputName.equals("-")) outputName = fileName.replaceAll("(.+(?=/)/)|\\.txt", "");
+            if (outputName.equals("-")) outputName =
+                    fileName.replaceAll("(.+(?=/)/)|\\.(txt|doc|docx|rtf|odt|hlp)", "");
             if (fileSizeInLines > 0) {
                 createFile(true, fileSizeInLines);
             } else if (fileSizeInChar > 0) {
