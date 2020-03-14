@@ -88,4 +88,15 @@ class FileSplitterTest {
         new File("end2").delete();
     }
 
+    @Test
+    public void testN6() throws IOException {
+        Main.main("split -d -n 3 -o - texts/gate.txt".split(" +"));
+        assertEquals(new String(Files.readAllBytes(Paths.get("gate1"))), "e");
+        assertEquals(new String(Files.readAllBytes(Paths.get("gate2"))), "n");
+        assertEquals(new String(Files.readAllBytes(Paths.get("gate3"))), "d");
+        new File("gate1").delete();
+        new File("gate2").delete();
+        new File("gate3").delete();
+    }
+
 }

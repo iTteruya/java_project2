@@ -93,11 +93,22 @@ public class FileSplitter {
                 while (lineCount.readLine() != null) {
                     i++;
                 }
-                int lineDivider;
-                if (i % fileSizeInFileCount == 0) lineDivider = i / fileSizeInFileCount;
-                else lineDivider = (i / fileSizeInFileCount) + 1;
-                createFile(true, lineDivider);
-            } else createFile(true, 100);
+                int divider;
+                if (i / fileSizeInFileCount != 0) {
+                    if (i % fileSizeInFileCount == 0) divider = i / fileSizeInFileCount;
+                    else divider = (i / fileSizeInFileCount) + 1;
+                    createFile(true, divider);
+                } else {
+                    BufferedReader wordCount = new BufferedReader(new FileReader(fileName));
+                    int j = 0;
+                    while (wordCount.read() != -1) {
+                        j++;
+                    }
+                    if (j % fileSizeInFileCount == 0) divider = j / fileSizeInFileCount;
+                    else divider = (j / fileSizeInFileCount) + 1;
+                    createFile(false, divider);
+                }
+            }else createFile(true, 100);
             br.close();
 
         } catch (CmdLineException e) {
