@@ -1,10 +1,13 @@
 package myClasses;
 
 import org.junit.jupiter.api.Test;
-import java.io.File;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.StringJoiner;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileSplitterTest {
@@ -16,7 +19,7 @@ class FileSplitterTest {
             +"Everyone should have been living while believing that. They should have been taught as much.\n"
             +"I too had thought that.\n"
             +"I had had believed that a novel wouldnt end until its last page.\n"
-            +"Perhaps she would laugh, saying that Id read too many novels.\n";
+            +"Perhaps she would laugh, saying that Id read too many novels.";
     String secondPart = "Even if I was laughed at, I didnt mind.\n"
             +"Even though I had wanted to read it till the very end. Even though I had meant to read it.\n"
             +"Her story had come to an end with the remaining pages still blank.\n"
@@ -24,79 +27,105 @@ class FileSplitterTest {
             +"Id never be able to find out a single thing.\n"
             +"The result of the mischief with the rope she was setting up too.\n"
             +"What she really thought of me too.\n"
-            +"Id never be able to find out.\n";
+            +"Id never be able to find out.";
 
     @Test
     public void testN1() throws IOException {
         Main.main("split -d -n 2 -o story texts/end.txt".split(" +"));
-        assertEquals(new String(Files.readAllBytes(Paths.get("story1"))), firstPart);
-        assertEquals(new String(Files.readAllBytes(Paths.get("story2"))), secondPart);
-        new File("story1").delete();
-        new File("story2").delete();
+        try {
+            assertEquals(joinToString(Files.readAllLines(Paths.get("story1"))), firstPart);
+            assertEquals(joinToString(Files.readAllLines(Paths.get("story2"))), secondPart);
+        } catch (AssertionError e) {
+            Files.delete(Paths.get("story1"));
+            Files.delete(Paths.get("story2"));
+            throw new AssertionError();
+        }
+        Files.delete(Paths.get("story1"));
+        Files.delete(Paths.get("story2"));
     }
 
     @Test
     public void testN2() throws IOException {
         Main.main("split -d -l 8 -o story texts/end.txt".split(" +"));
-        assertEquals(new String(Files.readAllBytes(Paths.get("story1"))), firstPart);
-        assertEquals(new String(Files.readAllBytes(Paths.get("story2"))), secondPart);
-        new File("story1").delete();
-        new File("story2").delete();
+        try {
+            assertEquals(joinToString(Files.readAllLines(Paths.get("story1"))), firstPart);
+            assertEquals(joinToString(Files.readAllLines(Paths.get("story2"))), secondPart);
+            Files.delete(Paths.get("story1"));
+            Files.delete(Paths.get("story2"));
+        } catch (AssertionError e) {
+            Files.delete(Paths.get("story1"));
+            Files.delete(Paths.get("story2"));
+        }
     }
 
     @Test
     public void testN3() throws IOException {
         Main.main("split -l 8 -o story texts/end.txt".split(" +"));
-        assertEquals(new String(Files.readAllBytes(Paths.get("storyaa"))), firstPart);
-        assertEquals(new String(Files.readAllBytes(Paths.get("storyab"))), secondPart);
-        new File("storyaa").delete();
-        new File("storyab").delete();
+        try {
+            assertEquals(joinToString(Files.readAllLines(Paths.get("storyaa"))), firstPart);
+            assertEquals(joinToString(Files.readAllLines(Paths.get("storyab"))), secondPart);
+        } catch (AssertionError e) {
+            Files.delete(Paths.get("storyaa"));
+            Files.delete(Paths.get("storyab"));
+            throw new AssertionError();
+        }
+        Files.delete(Paths.get("storyaa"));
+        Files.delete(Paths.get("storyab"));
     }
-
-    String firstPart2 = "We had misunderstood. We were fools.\r"
-            +"But, could anyone mock us for misunderstanding?\r"
-            +"A drama that had its final episode determined wouldnt end until its final episode.\r"
-            +"A movie that had a preview for its final instalment wouldnt end until its final instalment.\r"
-            +"Everyone should have been living while believing that. They should have been taught as much.\r"
-            +"I too had thought that.\r"
-            +"I had had believed that a novel wouldnt end until its last page.\r"
-            +"Perhaps she would laugh, saying that Id read too many novels.\r";
-    String secondPart2 = "Even if I was laughed at, I didnt mind.\r"
-            +"Even though I had wanted to read it till the very end. Even though I had meant to read it.\r"
-            +"Her story had come to an end with the remaining pages still blank.\r"
-            +"With all the build-up, foreshadowing, and red herrings neglected.\r"
-            +"Id never be able to find out a single thing.\r"
-            +"The result of the mischief with the rope she was setting up too.\r"
-            +"What she really thought of me too.\r"
-            +"Id never be able to find out.\r";
 
     @Test
     public void testN4() throws IOException {
-        Main.main("split -d -c 511 texts/end.txt".split(" +"));
-        assertEquals(new String(Files.readAllBytes(Paths.get("x1"))).replace("\n", ""), firstPart2);
-        assertEquals(new String(Files.readAllBytes(Paths.get("x2"))).replace("\n", ""), secondPart2);
-        new File("x1").delete();
-        new File("x2").delete();
+        Main.main("split -d -c 512 texts/end.txt".split(" +"));
+        try {
+            assertEquals(joinToString(Files.readAllLines(Paths.get("x1"))), firstPart);
+            assertEquals(joinToString(Files.readAllLines(Paths.get("x2"))), secondPart);
+            Files.delete(Paths.get("x1"));
+            Files.delete(Paths.get("x2"));
+        } catch (AssertionError e) {
+            Files.delete(Paths.get("x1"));
+            Files.delete(Paths.get("x2"));
+        }
     }
 
     @Test
     public void testN5() throws IOException {
         Main.main("split -o - -d -n 2 texts/end.txt".split(" +"));
-        assertEquals(new String(Files.readAllBytes(Paths.get("end1"))), firstPart);
-        assertEquals(new String(Files.readAllBytes(Paths.get("end2"))), secondPart);
-        new File("end1").delete();
-        new File("end2").delete();
+        try {
+            assertEquals(joinToString(Files.readAllLines(Paths.get("end1"))), firstPart);
+            assertEquals(joinToString(Files.readAllLines(Paths.get("end2"))), secondPart);
+        } catch (AssertionError e) {
+            Files.delete(Paths.get("end1"));
+            Files.delete(Paths.get("end2"));
+            throw new AssertionError();
+        }
+        Files.delete(Paths.get("end1"));
+        Files.delete(Paths.get("end2"));
     }
 
     @Test
     public void testN6() throws IOException {
         Main.main("split -d -n 3 -o - texts/gate.txt".split(" +"));
-        assertEquals(new String(Files.readAllBytes(Paths.get("gate1"))), "e");
-        assertEquals(new String(Files.readAllBytes(Paths.get("gate2"))), "n");
-        assertEquals(new String(Files.readAllBytes(Paths.get("gate3"))), "d");
-        new File("gate1").delete();
-        new File("gate2").delete();
-        new File("gate3").delete();
+        try {
+            assertEquals(joinToString(Files.readAllLines(Paths.get("gate1"))), "e");
+            assertEquals(joinToString(Files.readAllLines(Paths.get("gate2"))), "n");
+            assertEquals(joinToString(Files.readAllLines(Paths.get("gate3"))), "d");
+        } catch (AssertionError e) {
+            Files.delete(Paths.get("gate1"));
+            Files.delete(Paths.get("gate2"));
+            Files.delete(Paths.get("gate3"));
+            throw new AssertionError();
+        }
+        Files.delete(Paths.get("gate1"));
+        Files.delete(Paths.get("gate2"));
+        Files.delete(Paths.get("gate3"));
+    }
+
+    public String joinToString(List<String> text) {
+        StringJoiner joiner = new StringJoiner("\n");
+        for (Object i: text) {
+            joiner.add((String) i);
+        }
+        return joiner.toString();
     }
 
 }
