@@ -35,13 +35,13 @@ class FileSplitterTest {
         try {
             assertEquals(joinToString(Files.readAllLines(Paths.get("story1"))), firstPart);
             assertEquals(joinToString(Files.readAllLines(Paths.get("story2"))), secondPart);
+            Files.delete(Paths.get("story1"));
+            Files.delete(Paths.get("story2"));
         } catch (AssertionError e) {
             Files.delete(Paths.get("story1"));
             Files.delete(Paths.get("story2"));
             throw new AssertionError();
         }
-        Files.delete(Paths.get("story1"));
-        Files.delete(Paths.get("story2"));
     }
 
     @Test
@@ -64,13 +64,13 @@ class FileSplitterTest {
         try {
             assertEquals(joinToString(Files.readAllLines(Paths.get("storyaa"))), firstPart);
             assertEquals(joinToString(Files.readAllLines(Paths.get("storyab"))), secondPart);
+            Files.delete(Paths.get("storyaa"));
+            Files.delete(Paths.get("storyab"));
         } catch (AssertionError e) {
             Files.delete(Paths.get("storyaa"));
             Files.delete(Paths.get("storyab"));
             throw new AssertionError();
         }
-        Files.delete(Paths.get("storyaa"));
-        Files.delete(Paths.get("storyab"));
     }
 
     @Test
@@ -93,13 +93,13 @@ class FileSplitterTest {
         try {
             assertEquals(joinToString(Files.readAllLines(Paths.get("end1"))), firstPart);
             assertEquals(joinToString(Files.readAllLines(Paths.get("end2"))), secondPart);
+            Files.delete(Paths.get("end1"));
+            Files.delete(Paths.get("end2"));
         } catch (AssertionError e) {
             Files.delete(Paths.get("end1"));
             Files.delete(Paths.get("end2"));
             throw new AssertionError();
         }
-        Files.delete(Paths.get("end1"));
-        Files.delete(Paths.get("end2"));
     }
 
     @Test
@@ -109,15 +109,15 @@ class FileSplitterTest {
             assertEquals(joinToString(Files.readAllLines(Paths.get("gate1"))), "e");
             assertEquals(joinToString(Files.readAllLines(Paths.get("gate2"))), "n");
             assertEquals(joinToString(Files.readAllLines(Paths.get("gate3"))), "d");
+            Files.delete(Paths.get("gate1"));
+            Files.delete(Paths.get("gate2"));
+            Files.delete(Paths.get("gate3"));
         } catch (AssertionError e) {
             Files.delete(Paths.get("gate1"));
             Files.delete(Paths.get("gate2"));
             Files.delete(Paths.get("gate3"));
             throw new AssertionError();
         }
-        Files.delete(Paths.get("gate1"));
-        Files.delete(Paths.get("gate2"));
-        Files.delete(Paths.get("gate3"));
     }
 
     public String joinToString(List<String> text) {
