@@ -1,6 +1,7 @@
 package myClasses;
 
 import java.io.*;
+
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.CmdLineException;
@@ -16,9 +17,9 @@ public class FileSplitter {
     @Option(name = "-n") private int fileSizeInFileCount = 0;
     private BufferedReader br;
     private BufferedWriter bw;
-    String curFileName = outputName;
-    boolean createNewFile;
-    int curOutputFileNumber, availableCapacity;
+    private String curFileName = outputName;
+    private boolean createNewFile;
+    private int curOutputFileNumber, availableCapacity;
 
     private void createFile(boolean sizeInLines, int capacity) throws IOException {
         availableCapacity = capacity;
