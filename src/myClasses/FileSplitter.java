@@ -1,6 +1,8 @@
 package myClasses;
 
 import java.io.*;
+import java.util.ArrayList;
+
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -9,12 +11,12 @@ import org.kohsuke.args4j.CmdLineParser;
 
 
 public class FileSplitter {
-    @Argument private String[] commandLine;
+    @Argument private ArrayList<String> commandLine = new ArrayList<>();
     @Option(name = "-o") private String outputName = "x";
     @Option(name = "-d") private boolean numbering;
-    @Option(name = "-l") private int fileSizeInLines = 0;
-    @Option(name = "-c") private int fileSizeInChar = 0;
-    @Option(name = "-n") private int fileSizeInFileCount = 0;
+    @Option(name = "-l", forbids = {"-c", "-n"}) private int fileSizeInLines = 0;
+    @Option(name = "-c", forbids = {"-l", "-n"}) private int fileSizeInChar = 0;
+    @Option(name = "-n", forbids = {"-l", "-c"}) private int fileSizeInFileCount = 0;
     private BufferedReader br;
     private BufferedWriter bw;
     private String curFileName = outputName;
@@ -74,14 +76,10 @@ public class FileSplitter {
         CmdLineParser parser = new CmdLineParser(this);
         try {
             parser.parseArgument(cmd);
-            if (commandLine.length != 2 || !commandLine[0].equals("split"))
+            if (commandLine.size() != 2 || !commandLine.get(0).equals("split"))
                 throw new IllegalArgumentException("Incorrect Input");
-            String fileName = commandLine[1];
+            String fileName = commandLine.get(1);
             br = new BufferedReader(new FileReader(fileName));
-            if ((fileSizeInLines != 0 && (fileSizeInFileCount + fileSizeInChar) != 0)
-                || (fileSizeInChar != 0 && (fileSizeInFileCount + fileSizeInLines) != 0)
-                || (fileSizeInFileCount != 0 && (fileSizeInChar + fileSizeInLines) != 0))
-                throw new IllegalArgumentException("Incorrect Input");
             if (outputName.equals("-")) outputName =
                     fileName.replaceAll("(.+(?=/)/)|\\.(txt|doc|docx|rtf|odt|hlp)", "");
             if (fileSizeInLines > 0) {
