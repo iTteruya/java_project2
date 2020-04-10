@@ -11,6 +11,7 @@ import org.kohsuke.args4j.CmdLineParser;
 
 
 public class FileSplitter {
+    public static String pathName;
     @Argument private ArrayList<String> commandLine = new ArrayList<>();
     @Option(name = "-o") private String outputName = "x";
     @Option(name = "-d") private boolean numbering;
@@ -27,7 +28,7 @@ public class FileSplitter {
         availableCapacity = capacity;
         curOutputFileNumber = 1;
         curFileName = (numbering) ? outputName + curOutputFileNumber : (newNameWithChar());
-        bw = new BufferedWriter(new FileWriter(curFileName));
+        bw = new BufferedWriter(new FileWriter(pathName + "\\" + curFileName));
 
         if (!sizeInLines) {
             int curChar;
@@ -45,7 +46,7 @@ public class FileSplitter {
 
     private void write(String text, int capacity) throws IOException {
         if (createNewFile) {
-            bw = new BufferedWriter(new FileWriter(curFileName));
+            bw = new BufferedWriter(new FileWriter(pathName + "\\" + curFileName));
             createNewFile = false;
         }
         bw.write(text);
@@ -79,9 +80,13 @@ public class FileSplitter {
             if (commandLine.size() != 2 || !commandLine.get(0).equals("split"))
                 throw new IllegalArgumentException("Incorrect Input");
             String fileName = commandLine.get(1);
+            String path = new File(fileName).getParent();
             br = new BufferedReader(new FileReader(fileName));
             if (outputName.equals("-")) outputName =
                     fileName.replaceAll("(.+(?=/)/)|\\.(txt|doc|docx|rtf|odt|hlp)", "");
+            File dir = new File(path + "\\" + outputName);
+            dir.mkdir();
+            pathName = dir.getAbsolutePath();
             if (fileSizeInLines > 0) {
                 createFile(true, fileSizeInLines);
             } else if (fileSizeInChar > 0) {

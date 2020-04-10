@@ -1,7 +1,9 @@
 package myClasses;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -32,14 +34,13 @@ class FileSplitterTest {
     @Test
     public void testN1() throws IOException {
         Main.main("split -d -n 2 -o story texts/end.txt".split(" +"));
+        String path = FileSplitter.pathName;
         try {
-            assertEquals(joinToString(Files.readAllLines(Paths.get("story1"))), firstPart);
-            assertEquals(joinToString(Files.readAllLines(Paths.get("story2"))), secondPart);
-            Files.delete(Paths.get("story1"));
-            Files.delete(Paths.get("story2"));
+            assertEquals(joinToString(Files.readAllLines(Paths.get(path + "//" + "story1"))), firstPart);
+            assertEquals(joinToString(Files.readAllLines(Paths.get(path + "//" + "story2"))), secondPart);
+            FileUtils.deleteDirectory(new File(path));
         } catch (AssertionError e) {
-            Files.delete(Paths.get("story1"));
-            Files.delete(Paths.get("story2"));
+            FileUtils.deleteDirectory(new File(path));
             throw new AssertionError();
         }
     }
@@ -47,28 +48,27 @@ class FileSplitterTest {
     @Test
     public void testN2() throws IOException {
         Main.main("split -d -l 8 -o story texts/end.txt".split(" +"));
+        String path = FileSplitter.pathName;
         try {
-            assertEquals(joinToString(Files.readAllLines(Paths.get("story1"))), firstPart);
-            assertEquals(joinToString(Files.readAllLines(Paths.get("story2"))), secondPart);
-            Files.delete(Paths.get("story1"));
-            Files.delete(Paths.get("story2"));
+            assertEquals(joinToString(Files.readAllLines(Paths.get(path + "//" + "story1"))), firstPart);
+            assertEquals(joinToString(Files.readAllLines(Paths.get(path + "//" + "story2"))), secondPart);
+            FileUtils.deleteDirectory(new File(path));
         } catch (AssertionError e) {
-            Files.delete(Paths.get("story1"));
-            Files.delete(Paths.get("story2"));
+            FileUtils.deleteDirectory(new File(path));
+            throw new AssertionError();
         }
     }
 
     @Test
     public void testN3() throws IOException {
         Main.main("split -l 8 -o story texts/end.txt".split(" +"));
+        String path = FileSplitter.pathName;
         try {
-            assertEquals(joinToString(Files.readAllLines(Paths.get("storyaa"))), firstPart);
-            assertEquals(joinToString(Files.readAllLines(Paths.get("storyab"))), secondPart);
-            Files.delete(Paths.get("storyaa"));
-            Files.delete(Paths.get("storyab"));
+            assertEquals(joinToString(Files.readAllLines(Paths.get(path + "//" + "storyaa"))), firstPart);
+            assertEquals(joinToString(Files.readAllLines(Paths.get(path + "//" + "storyab"))), secondPart);
+            FileUtils.deleteDirectory(new File(path));
         } catch (AssertionError e) {
-            Files.delete(Paths.get("storyaa"));
-            Files.delete(Paths.get("storyab"));
+            FileUtils.deleteDirectory(new File(path));
             throw new AssertionError();
         }
     }
@@ -76,28 +76,27 @@ class FileSplitterTest {
     @Test
     public void testN4() throws IOException {
         Main.main("split -d -c 512 texts/end.txt".split(" +"));
+        String path = FileSplitter.pathName;
         try {
-            assertEquals(joinToString(Files.readAllLines(Paths.get("x1"))), firstPart);
-            assertEquals(joinToString(Files.readAllLines(Paths.get("x2"))), secondPart);
-            Files.delete(Paths.get("x1"));
-            Files.delete(Paths.get("x2"));
+            assertEquals(joinToString(Files.readAllLines(Paths.get(path + "//" + "x1"))), firstPart);
+            assertEquals(joinToString(Files.readAllLines(Paths.get(path + "//" + "x2"))), secondPart);
+            FileUtils.deleteDirectory(new File(path));
         } catch (AssertionError e) {
-            Files.delete(Paths.get("x1"));
-            Files.delete(Paths.get("x2"));
+            FileUtils.deleteDirectory(new File(path));
+            throw new AssertionError();
         }
     }
 
     @Test
     public void testN5() throws IOException {
         Main.main("split -o - -d -n 2 texts/end.txt".split(" +"));
+        String path = FileSplitter.pathName;
         try {
-            assertEquals(joinToString(Files.readAllLines(Paths.get("end1"))), firstPart);
-            assertEquals(joinToString(Files.readAllLines(Paths.get("end2"))), secondPart);
-            Files.delete(Paths.get("end1"));
-            Files.delete(Paths.get("end2"));
+            assertEquals(joinToString(Files.readAllLines(Paths.get(path + "//" + "end1"))), firstPart);
+            assertEquals(joinToString(Files.readAllLines(Paths.get(path + "//" + "end2"))), secondPart);
+            FileUtils.deleteDirectory(new File(path));
         } catch (AssertionError e) {
-            Files.delete(Paths.get("end1"));
-            Files.delete(Paths.get("end2"));
+            FileUtils.deleteDirectory(new File(path));
             throw new AssertionError();
         }
     }
@@ -105,17 +104,14 @@ class FileSplitterTest {
     @Test
     public void testN6() throws IOException {
         Main.main("split -d -n 3 -o - texts/gate.txt".split(" +"));
+        String path = FileSplitter.pathName;
         try {
-            assertEquals(joinToString(Files.readAllLines(Paths.get("gate1"))), "e");
-            assertEquals(joinToString(Files.readAllLines(Paths.get("gate2"))), "n");
-            assertEquals(joinToString(Files.readAllLines(Paths.get("gate3"))), "d");
-            Files.delete(Paths.get("gate1"));
-            Files.delete(Paths.get("gate2"));
-            Files.delete(Paths.get("gate3"));
+            assertEquals(joinToString(Files.readAllLines(Paths.get(path + "//" + "gate1"))), "e");
+            assertEquals(joinToString(Files.readAllLines(Paths.get(path + "//" + "gate2"))), "n");
+            assertEquals(joinToString(Files.readAllLines(Paths.get(path + "//" + "gate3"))), "d");
+            FileUtils.deleteDirectory(new File(path));
         } catch (AssertionError e) {
-            Files.delete(Paths.get("gate1"));
-            Files.delete(Paths.get("gate2"));
-            Files.delete(Paths.get("gate3"));
+            FileUtils.deleteDirectory(new File(path));
             throw new AssertionError();
         }
     }
